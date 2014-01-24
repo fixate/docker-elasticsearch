@@ -1,8 +1,3 @@
-# Dockerfile for our Ruby setup
+# Dockerfile for Elasticsearch 0.90.1 on Ubuntu 12.04
 
-[Docker index](https://index.docker.io/u/fixate/ruby-rbx/)
-
-**Installs:**
-
-- rbenv
-- rbx-2.2.1
+[Docker index](https://index.docker.io/u/fixate/elasticsearch/)
