@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+# Prevent java from asking about a license
+echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
+
+apt-get update
+xargs apt-get install -y --force-yes < $WD/packages.txt
+apt-get clean

@@ -1,0 +1,4 @@
+wget
+oracle-java7-installer
+
+
