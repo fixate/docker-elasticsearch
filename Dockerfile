@@ -1,18 +1,25 @@
-FROM ubuntu:12.04
+FROM phusion/baseimage:0.9.6
 MAINTAINER Stan Bondi <stan@fixate.it>
+
+ENV HOME /root
+
+# Regenerate SSH host keys.
+RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
 
 # Add Java PPA
 RUN apt-get install -y python-software-properties
 RUN add-apt-repository -y ppa:webupd8team/java
 RUN apt-get update
 
-ADD ./build/ /dockerfile/
-RUN LC_ALL=C DEBIAN_FRONTEND=noninteractive WD=/dockerfile /dockerfile/prepare
+ADD ./build/ /tmp/
+RUN LC_ALL=C DEBIAN_FRONTEND=noninteractive WD=/tmp /tmp/prepare
 
 # Install ElasticSearch.
-RUN TMP_DIR=/dockerfile/tmp ES_VERSION=1.0.0 ES_DIR=/elasticsearch /dockerfile/build
-# Clean up
-RUN rm -rf /dockerfile
+RUN TMP_DIR=/tmp ES_VERSION=1.0.0 ES_DIR=/elasticsearch APP=elasticsearch \
+    /tmp/build
 
 # Expose ports.
 #   - 9200: HTTP
@@ -24,6 +31,4 @@ VOLUME ["/elasticsearch/config", "/elasticsearch/logs", "/var/elasticsearch/data
 ENV ES_DATADIR "/var/elasticsearch/data"
 ENV ES_TMPDIR "/var/elasticsearch/tmp"
 
-# Define an entry point.
-ENTRYPOINT ["/elasticsearch/bin/elasticsearch"]
-
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

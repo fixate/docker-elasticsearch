@@ -11,3 +11,10 @@ echo "Downloading elastic search v${ES_VERSION}..."
 wget -P $TMP_DIR -O elasticsearch.tar.gz $ES_URL
 
 pushd $TMP_DIR > /dev/null
+
+# Directory for service script
+mkdir -p /etc/service/$APP
+
+mv $TMP_DIR/run.sh /etc/service/$APP/run
+chmod +x /etc/service/$APP/run
+
