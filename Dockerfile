@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.6
+FROM phusion/baseimage:0.9.8
 MAINTAINER Stan Bondi <stan@fixate.it>
 
 ENV HOME /root
