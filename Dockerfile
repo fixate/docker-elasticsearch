@@ -18,7 +18,7 @@ ADD ./build/ /tmp/
 RUN LC_ALL=C DEBIAN_FRONTEND=noninteractive WD=/tmp /tmp/prepare
 
 # Install ElasticSearch.
-RUN TMP_DIR=/tmp ES_VERSION=1.0.0 ES_DIR=/elasticsearch APP=elasticsearch \
+RUN TMP_DIR=/tmp ES_VERSION=1.0.0 ES_DIR=/usr/lib APP=elasticsearch \
     /tmp/build
 
 # Expose ports.
@@ -27,7 +27,6 @@ RUN TMP_DIR=/tmp ES_VERSION=1.0.0 ES_DIR=/elasticsearch APP=elasticsearch \
 EXPOSE 9200
 EXPOSE 9300
 
-VOLUME ["/elasticsearch/config", "/elasticsearch/logs", "/var/elasticsearch/data", "/var/elasticsearch/data" ]
 ENV ES_DATADIR "/var/elasticsearch/data"
 ENV ES_TMPDIR "/var/elasticsearch/tmp"
 
