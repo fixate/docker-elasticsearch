@@ -10,15 +10,14 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 CMD ["/sbin/my_init"]
 
 # Add Java PPA
-RUN apt-get install -y python-software-properties
-RUN add-apt-repository -y ppa:webupd8team/java
-RUN apt-get update
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository -y ppa:webupd8team/java && apt-get update
 
 ADD ./build/ /tmp/
 RUN LC_ALL=C DEBIAN_FRONTEND=noninteractive WD=/tmp /tmp/prepare
 
 # Install ElasticSearch.
-RUN TMP_DIR=/tmp ES_VERSION=1.0.0 ES_DIR=/usr/lib APP=elasticsearch \
+RUN TMP_DIR=/tmp ES_VERSION=1.2.1 ES_DIR=/usr/lib APP=elasticsearch \
     /tmp/build
 
 # Expose ports.
